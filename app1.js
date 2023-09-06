@@ -7,6 +7,11 @@ const agregarTarea = () => {
         let tareaNueva = document.createElement('div');
         tareaNueva.classList.add('tarea');
 
+        let id = document.createElement('p');
+        id.innerText = 16;
+        console.log(id);
+        tareaNueva.appendChild(id);
+
         let texto = document.createElement('p');
         texto.innerText = input.value;
         console.log(texto);

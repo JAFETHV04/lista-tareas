@@ -9,18 +9,203 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Courgette&family=Montserrat:ital,wght@0,500;0,600;1,400&family=Noto+Sans+Thai:wght@500&family=Roboto:wght@400;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+   <!-- <link rel="stylesheet" href="style.css">-->
     <link rel="icon" href="./images/icon.jpeg">
 </head>
+<style>
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'roboto', sans-serif;
+
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 0;
+    background: url('./images/fondos.jpeg') no-repeat center center/ cover;
+   background-color: goldenrod;
+}
+
+.contenedor{
+    width: 700px;
+    min-height: 500px;
+    background-color: white;
+    padding: 40px;
+    border: 5px solid black;
+    border-radius: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+h1{
+    font-size: 50px;
+    font-weight: bold;
+}
+
+input{
+    width: 80%;
+    height: 50px;
+    font-size: 25px;
+    margin: 20px;
+    padding: 10px;
+    border: 4px solid black;
+    border-radius: 10px;
+}
+
+button{
+    width: 170px;
+    height: 60px;
+    padding: 10px;
+    color: white;
+    background-color: #E07A5F;
+    font-size: 22px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    
+}
+
+#lista-tareas{
+    width: 80%;
+    margin-top: 20px;
+
+}
+.tarea{
+    width: 100%;
+    min-height: 70px;
+    font-size: 25px;
+    padding: 10px;
+    margin-top: 10px;
+    color: #3D405B;
+    background-color: khaki;
+    border: 2px solid black;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.tarea.completada{
+    text-decoration: line-through;
+    background-color: yellowgreen;
+    border: none;
+}
+.tarea p{
+    max-width: 350px;
+}
+
+i{
+    margin: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.iconos-completar{
+    color: #00B4D8;
+}
+.iconos-eliminar{
+    color: #FF595E;
+}
+
+.iconos-completar:hover,
+.iconos-eliminar:hover{
+    background-color: #CED4DA;
+}
+#id{
+    display: none;
+}
+</style>
 <body>
     <main class="contenedor">
-        <h1>MIS TAREAS</h1>
-        <input id="ingresar-tareas" placeholder="INGRESE LAS TAREAS">
-        <button type="submit">CREAR TAREA</button>
+        <form action="/guardarTarea" method="post">
+         <h1>MIS TAREAS</h1>
+            <input id="tareas" name="tareas" placeholder="INGRESE LAS TAREAS">
+            <button type="submit">CREAR TAREA</button>
+         <!--  <input type="hidden" id="id" name="id" value=1>--> 
+        </form>
         <div id="lista-tareas">
             
         </div>
+       
     </main>
-    <script src="app1.js"></script>
+ <!--   <script src="app1.js"></script>-->
+ <script>
+const input = document.getElementById('tareas');
+const boton = document.querySelector('button');
+const listaTareas = document.getElementById('lista-tareas');
+//const valorId = document.getElementById('id').value = generarId();
+
+const agregarTarea = () => {
+    if (input.value){
+        let tareaNueva = document.createElement('div');
+        tareaNueva.classList.add('tarea');
+
+        let id = document.createElement('p');
+        id.innerText = generarId();
+        console.log(id);
+        tareaNueva.appendChild(id);
+
+        
+
+        let texto = document.createElement('p');
+        texto.innerText = input.value;
+        console.log(texto);
+        tareaNueva.appendChild(texto);
+
+        let iconos = document.createElement('div');
+        iconos.classList.add('iconos');
+        tareaNueva.appendChild(iconos);
+
+        let completar = document.createElement('i');
+        completar.classList.add('bi', 'bi-check-circle-fill', 'iconos-completar');
+        completar.addEventListener('click',tareaCompletada);
+
+        let eliminar = document.createElement('i');
+        eliminar.classList.add('bi', 'bi-trash3-fill', 'iconos-eliminar');
+        eliminar.addEventListener('click',eliminarTarea);
+
+        iconos.append(completar, eliminar);
+
+        listaTareas.appendChild(tareaNueva);
+    } else{
+        alert("ingrese una tarea");
+    }
+}
+
+var viejoId = 1;
+var generarId = () => {
+    var nuevoId = viejoId;
+    viejoId++;
+    return nuevoId;
+}
+
+const tareaCompletada = (e) => {
+    let tarea = e.target.parentNode.parentNode;
+    tarea.classList.toggle('completada');
+}
+
+const eliminarTarea = (e) => {
+    let tarea = e.target.parentNode.parentNode;
+    tarea.remove();
+}
+
+boton.addEventListener('click',agregarTarea);
+
+input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter'){
+        agregarTarea();
+    }
+})
+ </script>
 </body>
 </html>
