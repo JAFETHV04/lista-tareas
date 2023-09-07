@@ -60,6 +60,13 @@ input{
     border: 4px solid black;
     border-radius: 10px;
 }
+label{
+    padding-top: 10px;
+    color: black;
+    font-size: 20px;
+    text-align: left;
+    font-weight: bold;
+}
 
 button{
     width: 170px;
@@ -127,9 +134,12 @@ i{
 </style>
 <body>
     <main class="contenedor">
+        
         <form action="/guardarTarea" method="post">
          <h1>MIS TAREAS</h1>
             <input id="tareas" name="tareas" placeholder="INGRESE LAS TAREAS">
+            <label for="tiempo">Selecciona una hora para tu tarea:</label>
+            <input type="time" id="tiempo" name="tiempo">
             <button type="submit">CREAR TAREA</button>
          <!--  <input type="hidden" id="id" name="id" value=1>--> 
         </form>
@@ -143,6 +153,7 @@ i{
 const input = document.getElementById('tareas');
 const boton = document.querySelector('button');
 const listaTareas = document.getElementById('lista-tareas');
+const time = document.getElementById('tiempo');
 //const valorId = document.getElementById('id').value = generarId();
 
 const agregarTarea = () => {
@@ -161,6 +172,11 @@ const agregarTarea = () => {
         texto.innerText = input.value;
         console.log(texto);
         tareaNueva.appendChild(texto);
+
+        let tiempo = document.createElement('p');
+        tiempo.innerText = time.value;
+        console.log(tiempo);
+        tareaNueva.appendChild(tiempo);
 
         let iconos = document.createElement('div');
         iconos.classList.add('iconos');
